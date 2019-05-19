@@ -7,7 +7,7 @@ int main(void)
 	
 	scanf("%d %d %lf", &numFuncionario, &timeOfWork, &cashByHours);
 	printf("NUMBER = %d\n", numFuncionario);
-	printf("SALARY = %.2lf\n", cashByHours*timeOfWork);
+	printf("SALARY = R$ %.2lf\n", cashByHours*timeOfWork);
  
 	return 0;
 }

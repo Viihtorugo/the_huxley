@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 
 int *ordernedNumbers (int *array, int n)
 {
@@ -22,25 +23,18 @@ int *ordernedNumbers (int *array, int n)
 
 int *formatFiveNumbers(int *array, int k)
 {
-	int newArray[5], i;
+	int *newArray = malloc (5 * sizeof(int));
+	int i;
 	
 	if(k < 5)
 	{
-		int n = 4;
+		int n = 0;
 
-		for(i = 0; i < 5; i++)
-		{
-			if(array[i] != 0)
-			{
-				newArray[n] = array[i];
-			}
-			else
-			{
-				newArray[n] = -1;
-			}
-			
-			n--;	
-		}
+		for(i = 0; i < 5 - k; i++)
+			newArray[i] = -1;
+		
+		for(i = 5 - k; i < 5; i++)
+			newArray[i] = array[n++];
 	}
 	else
 	{
@@ -59,8 +53,7 @@ int *lottery (int *array, int n, int d)
 	{
 		if(array[i]%10 == d)
 		{
-			fiveNumbers[k] = array[i];
-			k++;
+			fiveNumbers[k++] = array[i];
 		}
 	}
 

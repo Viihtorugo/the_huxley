@@ -50,12 +50,8 @@ int *lottery (int *array, int n, int d)
 	int fiveNumbers[n], i, k = 0;
 
 	for(i = 0; i < n; i++)
-	{
 		if(array[i]%10 == d)
-		{
 			fiveNumbers[k++] = array[i];
-		}
-	}
 
 	return formatFiveNumbers(ordernedNumbers(fiveNumbers, k), k);
 }

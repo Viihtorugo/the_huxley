@@ -3,31 +3,42 @@
 
 int main (void)
 {
-	int k = 1;	
-	int *array = (int *) malloc (1001 * sizeof(int));
+	int *array = malloc (1001 * sizeof(int));
+	int k = 0, i, j;
 	
 	while(1)
 	{
-		int i;
-	
-		for(i = (1001 - (1001*k)); i < (1001 * k); i++)
+		for(i = k; i < k+1001; i++)
+		{	
 			scanf("%d", &array[i]);
-
-		if(array[(1001 * k)] == -1)
+			
+			if(array[k] == -1)
+				break;
+		}
+		
+		if(array[k] == -1)
+		{
 			break;
-
-		printf("%d\n", array[(1001 * k)]);		
-
-		k++;
-		array = (int *) realloc (array, (1001 * k) * sizeof(int));
+		}
+		else
+		{
+			k+=1001;
+			array = (int *) realloc(array, k*sizeof(int *));
+		}
 	}
 	
-	int i, count = 0;
-		
-	for(i = 0; i < 1001*k; i++)
-		count++;
 	
-	printf("%d\n", count);	
+	for(j = 0; j < k/1001; j++)
+	{
+		int count = 0;
+
+		for(i = j*1001; i < (j*1001)+1000; i++)
+			if(array[i] == array[(j*1001)+1000])
+				++count;
+		
+		printf("%d appeared %d times\n", array[(j*1001)+1000], count);
+	}
+
 
 	return 0;
 }

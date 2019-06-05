@@ -11,33 +11,29 @@ int isPrime (int n, int k)
 	return isPrime(n, k-1);
 }
 
-void output (int n)
-{
-	if(isPrime(n, n) == 2)
-	{
-		printf("1\n");
-	}
-	else
-	{
-		printf("0\n");
-	}
-}
-
-void input()
-{
-	int n;
-
-	scanf("%d", &n);
-
-	if(n != -1)
-		output(n);
-}
-
 
 int main ()
 {
 
-	input();
+	int n;
 
-	return 0;
+	scanf("%d", &n);
+
+	if(n == -1)
+	{
+		return 0;
+	}
+	else
+	{
+		if(isPrime(n, n) == 2)
+		{
+			printf("1\n");
+		}
+		else
+		{
+			printf("0\n");
+		}
+
+		main();
+	}
 }

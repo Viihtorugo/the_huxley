@@ -2,30 +2,30 @@
 
 int mdc (int a, int d)
 {
-	int aux;
-
-	while(a%d != 0)
-	{
-		aux = d;
-		d = a%d;
-		a = aux;
-	}
+	if(a%d != 0)
+		return mdc(d, a%d);
 
 	return d;
 }
 
+int input (int n)
+{
+	if(n == 0)
+		return 0;
+
+	int n1, n2;
+	
+	scanf("%d %d", &n1, &n2);
+	printf("MDC(%d,%d) = %d\n", n1, n2, mdc(n1, n2));
+	
+	return input(--n);
+}
+
 int main (void)
 {
-	int n, i;
+	int n;
+
 	scanf("%d", &n);
-	
-	int array[n][2];
 
-	for(i = 0; i < n; i++)
-		scanf("%d %d", &array[i][0], &array[i][1]);
-			
-	for(i = 0; i < n; i++)	
-		printf("MDC(%d,%d) = %d\n", array[i][0], array[i][1], mdc(array[i][0], array[i][1]));
-
-	return 0;
+	return input(n);
 }

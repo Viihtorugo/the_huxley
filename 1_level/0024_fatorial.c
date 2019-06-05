@@ -5,24 +5,23 @@ int inputNumbers();
 int fatorial(int n)
 {
 	if(n < 1)
-		return inputNumbers();
+		return 1;
 
 	return n * fatorial(n-1);
 }
 
-int inputNumbers()
-{
+ 
+int main()
+{	
 	int n;
 	
 	scanf("%d", &n);
 	
-	if(n == -1)
-		return 1;	
+	if(n != -1)
+	{
+		printf("%d\n", fatorial(n));
+		main();
+	}
 
-	printf("%d\n", fatorial(n));
-}
- 
-int main()
-{	
-	return inputNumbers();
+	return 0;	
 }     

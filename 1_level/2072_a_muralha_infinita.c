@@ -1,36 +1,28 @@
 #include<stdio.h>
 
-int count (int n, int x, int y, int k)
-{	
-	printf("n = %d\n", n);
+void cleanBuffer()
+{
+	if(getchar() != '\n')
+		cleanBuffer();
+}
+
+int count (int n, int x, int y)
+{
 	if(n == 0)
 		return 0;
 	
-	setbuf(stdin, NULL);
-	
 	char p;
 
+	cleanBuffer();
 	scanf("%c", &p);
 
 	if(p == 'D')
-	{
-		if(x!=0 && y!=0)
-			if(x == y)
-				return count(--n, ++x, y, ++k);
-		
-		return count(--n, ++x, y, k);
-	}
+		x++;
 
 	if(p == 'C')
-	{	
-		if(x!=0 && y!=0)
-			if(x == y)
-				return count(--n, x, ++y, ++k);
-		
-		return count(--n, ++x, y, k);
-	}
-	
-	return k;
+		y++;
+
+	return count(--n, x, y);
 }
 
 int main (void)
@@ -39,8 +31,7 @@ int main (void)
 	int n;
 
 	scanf("%d", &n);
-
-	printf("%d\n", count(n, 0, 0, 0));
+	printf("%d\n", count(n, 0, 0));
 	
 	return 0;
 }

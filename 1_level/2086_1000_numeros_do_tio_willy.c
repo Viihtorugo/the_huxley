@@ -14,28 +14,27 @@ int count (int n, int *num, int i)
 
 void loop (int i, int *num) {
 
-	printf("i = ");	
+	scanf("%i", num);
+	
 	if(i == 1000)
 	{
-		printf("%d appeared %d times\n", *num, count(*num, num-i, 0));
-		loop(0, NULL);
+		printf("%i appeared %i times\n", *num, count(*num, num-i, 0));
+		return loop(0, realloc(num-i, 1001 * sizeof(int)));
 	}
-	
-	int n;
-	scanf("%d", &n);
 
-	if(num == NULL)
-		if(n == -1)
-			return;
-	*num = n;
-	loop(++i, num+1);
+	if( (i == 0 && *num == -1) || num == NULL)
+	{
+		free(num);
+		return;
+	}
+
+	return loop(++i, num+1);
 }
 
 int main ()
 {	
+	loop(0, malloc(1001 * sizeof(int)));
 	
-	loop(0, NULL);
-
 	return 0;
 }
 

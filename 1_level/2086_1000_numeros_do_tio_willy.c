@@ -1,44 +1,41 @@
 #include<stdio.h>
 #include <stdlib.h>
 
-int main (void)
-{
-	int *array = malloc (1001 * sizeof(int));
-	int k = 0, i, j;
+int count (int n, int *num, int i)
+{	
+	if(i == 1000)
+		return 0;
+
+	if(*num == n)
+		return 1 + count(n, num+1, ++i);
 	
-	while(1)
+	return count(n, num+1, ++i);
+}
+
+void loop (int i, int *num) {
+
+	printf("i = ");	
+	if(i == 1000)
 	{
-		for(i = k; i < k+1001; i++)
-		{	
-			scanf("%d", &array[i]);
-			
-			if(array[k] == -1)
-				break;
-		}
-		
-		if(array[k] == -1)
-		{
-			break;
-		}
-		else
-		{
-			k+=1001;
-			array = (int *) realloc(array, k*sizeof(int *));
-		}
+		printf("%d appeared %d times\n", *num, count(*num, num-i, 0));
+		loop(0, NULL);
 	}
 	
+	int n;
+	scanf("%d", &n);
+
+	if(num == NULL)
+		if(n == -1)
+			return;
+	*num = n;
+	loop(++i, num+1);
+}
+
+int main ()
+{	
 	
-	for(j = 0; j < k/1001; j++)
-	{
-		int count = 0;
-
-		for(i = j*1001; i < (j*1001)+1000; i++)
-			if(array[i] == array[(j*1001)+1000])
-				++count;
-		
-		printf("%d appeared %d times\n", array[(j*1001)+1000], count);
-	}
-
+	loop(0, NULL);
 
 	return 0;
 }
+

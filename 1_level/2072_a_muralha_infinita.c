@@ -12,17 +12,25 @@ int count (int n, int x, int y)
 		return 0;
 	
 	char p;
-
+	
 	cleanBuffer();
 	scanf("%c", &p);
 
 	if(p == 'D')
-		x++;
+	{
+		if(x - y == 0 && x != 0)
+			return 1 + count(--n, ++x, y);
+
+		return count(--n, ++x, y);
+	}
 
 	if(p == 'C')
-		y++;
+	{
+		if(x - y == 0 && y != 0)
+			return 1 + count(--n, x, ++y);
 
-	return count(--n, x, y);
+		return count(--n, x, ++y);
+	}
 }
 
 int main (void)

@@ -1,40 +1,35 @@
-#include<stdio.h>
-#include <stdlib.h>
+#include <stdio.h>
 
-int count (int n, int *num, int i)
-{	
+int count = 0;
+
+int loop(int i)
+{
+	int n;
+	scanf("%d", &n);
+
 	if(i == 1000)
-		return 0;
-
-	if(*num == n)
-		return 1 + count(n, num+1, ++i);
+		return n;
 	
-	return count(n, num+1, ++i);
-}
-
-void loop (int i, int *num) {
-
-	scanf("%i", num);
+	int aux = loop(i+1);
 	
-	if(i == 1000)
-	{
-		printf("%i appeared %i times\n", *num, count(*num, num-i, 0));
-		return loop(0, realloc(num-i, 1001 * sizeof(int)));
-	}
+	if(n == aux)
+		count+=1;
 
-	if( (i == 0 && *num == -1) || num == NULL)
+	if(i == 0)
 	{
-		free(num);
-		return;
+		if(n == -1)
+			return 0;
+		
+		printf("%d appeared %d times\n", aux, count);
+		
+		count = 0;
+		return loop(0);
 	}
-
-	return loop(++i, num+1);
+	
+	return aux;
 }
 
 int main ()
-{	
-	loop(0, malloc(1001 * sizeof(int)));
-	
-	return 0;
+{
+	return loop(0);
 }
-

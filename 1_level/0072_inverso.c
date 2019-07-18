@@ -1,28 +1,30 @@
- #include<stdio.h>
+#include<stdio.h>
+
+void loop (int n)
+{
+	int num;
+	
+	scanf("%d", &num);
+	
+	if(n == 1)
+	{
+		printf("%d", num);
+		return;
+	}
+	
+	loop(n-1);
+	printf(" %d", num);
+	return;
+}
  
- int main(void){
- 
- int n, i;
- 
- scanf("%d", &n);
- 
- int vetor[n];
- 
- for(i=0; i<n; i++){
- scanf("%d", &vetor[i]);
- }
- 
- for(i = n-1; i>=0; i--){
- if(i==n-1){
- printf("%d", vetor[i]);
- }else{
- if(i!=0){
- printf(" %d", vetor[i]);
- }
- if(i==0){
- printf(" %d\n", vetor[i]);
- }
- }
- }
- 
- }
+int main()
+{ 
+	int n;
+	
+	scanf("%d", &n);
+
+	loop(n);
+	printf("\n");
+
+	return 0; 
+}

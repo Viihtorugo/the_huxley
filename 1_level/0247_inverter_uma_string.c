@@ -1,20 +1,35 @@
- #include<stdio.h>
- 
- int main(void){
- 
- int i=0, j;
- char palavra[255], c;
- gets(palavra);
- 
- while(palavra[i]!='\0'){
- i++;
- }
- 
- for(j=i-1; j>=0; j--){
- printf("%c", palavra[j]);
- }
- printf("\n");
- 
- return 0;
- }
+#include <stdio.h>
+
+int getLengthString (char *string)
+{
+	if (*string == '\0')
+		return 0;
+
+	return 1 + getLengthString(string+1);
+}
+
+void printReverseString(char string[], int i)
+{
+	if(i >= 0)
+	{
+		printf("%c", string[i]);
+		printReverseString(string, i-1);
+	}
+	else
+	{
+		printf("\n");
+	}
+}
+
+int main()
+{
+	char string[255];
+	
+	scanf("%[^\n]%*c", string);
+
+	int i = getLengthString(string);
+ 	printReverseString(string, i);
+
+	return 0;
+}
 

@@ -1,57 +1,102 @@
- #include<stdio.h>
+#include<stdio.h>
 
- main()
- {
+void setArray(int array[], int i, int n)
+{
+    if (i < n)
+    {
+        scanf("%d", &array[i]);
+        setArray(array, i+1, n);
+    }
+}
 
- int i, n, figurinhas, aux=0;
- int impares=0, pares=0, somaS2=0, somaS3=0;
+int countPairs (int array[], int i, int n)
+{
+    if (i < n)
+    {
+        if (array[i] % 2 == 0)
+            return 1 + countPairs(array, i+1, n);
+        
+        return countPairs(array, i+1, n);
+    }
+    
+    return 0;
+}
 
- scanf("%d", &figurinhas);
- 
- int series[figurinhas];
- 
- for(i=0; i<figurinhas; i++){
- 
- scanf("%d", &series[i]);
- 
- if(series[i]%2==0){
- pares += 1;
- somaS2+=series[i];
- }else{
- impares += 1;
- somaS3+=series[i];
- }
- 
- }
- 
- for(i=0; i<figurinhas; i++){
- if(series[i]%2==0){
- for(n=1+i; n<figurinhas; n++){
- if(series[i]==series[n]){
- somaS2-=series[i];
- n=figurinhas;
- }
- }
- }else{
- for(n=1+i; n<figurinhas; n++){
- if(series[i]==series[n]){
- somaS3-=series[i];
- n=figurinhas;
- }
- }
- }
- }
- 
- 
- printf("%d\n%d\n", pares, impares);
+int countOdds (int array[], int i, int n)
+{
+    if (i < n)
+    {
+        if (array[i] % 2 != 0)
+            return 1 + countOdds(array, i+1, n);
+            
+        return countOdds(array, i+1, n);
+    }
+    
+    return 0;
+}
 
- if(somaS2>somaS3){
- printf("%d\n", somaS2);
- }else{
- printf("%d\n", somaS3);
- }
- 
- system("pause");
+int repeatedCard (int array[], int i, int id)
+{
+    if (i >= 0)
+    {
+        if(array[id] == array[i])
+            return 0;
+        
+        return repeatedCard(array, i-1, id);
+    }
+    
+    return 1;
+}
 
- }
+int sumOfPairs (int array[], int i, int n)
+{
+    if (i < n)
+    {
+        if (array[i] % 2 == 0)
+            if(repeatedCard(array, i-1, i))
+                return array[i] + sumOfPairs(array, i+1, n);
+                
+        return sumOfPairs(array, i+1, n);
+    }
+    
+    return 0;
+}
 
+int sumOfOdds (int array[], int i, int n)
+{
+    if (i < n)
+    {
+        if (array[i] % 2 != 0)
+            if(repeatedCard(array, i-1, i))
+                return array[i] + sumOfOdds(array, i+1, n);
+                
+        return sumOfOdds(array, i+1, n);
+    }
+    
+    return 0;
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    
+    int array[n];
+    setArray(array, 0, n);
+    
+    printf("%d\n%d\n", countPairs(array, 0, n), countOdds(array, 0, n));
+    
+    int sumPairs = sumOfPairs(array, 0, n);
+    int sumOdds  = sumOfOdds(array, 0, n);
+    
+    if (sumPairs > sumOdds)
+    {
+        printf("%d\n", sumPairs);
+    }
+    else
+    {
+        printf("%d\n", sumOdds);
+    }
+    
+    return 0;
+}

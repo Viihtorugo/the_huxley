@@ -28,10 +28,10 @@ List *listSort (int n, List *list)
 		
 		if(node == NULL)
 			exit(0);
-
+		
 		scanf("%d", &node->n);
 		
-		while(current != NULL)
+		while(current->next != NULL)
 		{
 			if(node->n > current->n)
 			{
@@ -45,22 +45,55 @@ List *listSort (int n, List *list)
 				break;
 			}
 		}
+		
+		if(current->next == NULL)
+		{
+			current->next = node;
+		}
+	}
+	
+	
+	return listSort(--n, list);
+}
+
+
+void isNull (List *list)
+{
+	if(list == NULL)
+	{
+		free(list);
+		exit(0);
+	}
+}
+
+void addNode (int n, List *list)
+{	
+	isNull(list);
+	
+	if (n == 0)
+	{
+		free(list->next);
+		return;
 	}
 
-	return listSort(--n, list);
+	scanf("%d", &list->n);
+	
+	list->next = malloc(sizeof(List));
+	
+	addNode(n-1, list->next);
 }
 
 int main ()
 {	
-	List *list = NULL;
-
-	list = listSort(3, list);
+	List *list = malloc(sizeof(List));
+	addNode(3, list);
 	
 	while(list != NULL)
 	{
 		printf("n = %d\n", list->n);
 		list = list->next;
 	}
-
+	
+	free(list);
 	return 0;
 }

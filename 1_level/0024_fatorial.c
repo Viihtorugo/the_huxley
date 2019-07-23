@@ -1,8 +1,6 @@
 #include<stdio.h>
 
-int inputNumbers();
-
-int fatorial(int n)
+int fatorial (int n)
 {
 	if(n < 1)
 		return 1;
@@ -10,9 +8,8 @@ int fatorial(int n)
 	return n * fatorial(n-1);
 }
 
- 
-int main()
-{	
+void loop ()
+{
 	int n;
 	
 	scanf("%d", &n);
@@ -20,8 +17,13 @@ int main()
 	if(n != -1)
 	{
 		printf("%d\n", fatorial(n));
-		main();
+		loop();
 	}
 
+}
+ 
+int main()
+{	
+	loop();
 	return 0;	
 }     

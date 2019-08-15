@@ -1,99 +1,43 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-typedef struct list 
-{
+typedef struct list list;
+
+struct list {
 	int n;
-	struct list *next;
-} List;
+	list *next;
+};
 
-List *listSort (int n, List *list)
+void add_nodes (list *l, int i)
 {
-	if(n == 0)
-		return list;
-	
-	if(list == NULL)
+	if (i > 0)
 	{
-		list = malloc(sizeof(List));
+		list node;
+
+		scanf("%d", &node.n);
 		
-		if(list == NULL)
-			exit(0);
-		
-		scanf("%d", &list->n);		
+		l->next = &node;
+		add_nodes(l->next, i - 1);
 	}
-	else
-	{
-		List *current = list;
-		List *node = malloc(sizeof(List));
-		
-		if(node == NULL)
-			exit(0);
-		
-		scanf("%d", &node->n);
-		
-		while(current->next != NULL)
-		{
-			if(node->n > current->n)
-			{
-				current = current->next;
-			}
-			else
-			{
-				List *aux 	= current;
-				current 	= node;
-				current->next 	= aux;
-				break;
-			}
-		}
-		
-		if(current->next == NULL)
-		{
-			current->next = node;
-		}
-	}
-	
-	
-	return listSort(--n, list);
+
+	l = NULL;
 }
 
-
-void isNull (List *list)
+void print_list (list *l)
 {
-	if(list == NULL)
+	if (l != NULL)
 	{
-		free(list);
-		exit(0);
+		printf("test\n");
+		printf("%d\n", l->n);
+		print_list(l->next);
 	}
-}
-
-void addNode (int n, List *list)
-{	
-	isNull(list);
-	
-	if (n == 0)
-	{
-		free(list->next);
-		return;
-	}
-
-	scanf("%d", &list->n);
-	
-	list->next = malloc(sizeof(List));
-	
-	addNode(n-1, list->next);
 }
 
 int main ()
 {	
-	List *list = malloc(sizeof(List));
-	addNode(3, list);
+	list l;
 	
-	while(list != NULL)
-	{
-		printf("n = %d\n", list->n);
-		list = list->next;
-	}
-	
-	free(list);
+	add_nodes(&l, 10);
+	print_list(&l);
+
 	return 0;
 }

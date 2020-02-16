@@ -99,10 +99,27 @@ void loop(stack *stack)
     
 }
 
+void free_stack (stack *stack)
+{
+
+    while (stack->head != NULL)
+    {   
+        node *current = stack->head;
+
+        stack->head = stack->head->next;
+
+        free(current);
+    }
+
+    free(stack);
+}
+
 int main ()
 {
     stack *stack = create_stack();
+    
     loop(stack);
-
+    free_stack(stack);
+    
     return 0;
 }

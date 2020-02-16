@@ -84,15 +84,16 @@ int search (node *list, int age)
 
 void free_list (node *list)
 {
-    node *current;
-
     while (list != NULL)
     {
-        current = list;
+        node *current = list;
+
         list = list->next;
 
         free(current);
     }
+
+    free(list);
 }
 
 void loop(node *list, int n)

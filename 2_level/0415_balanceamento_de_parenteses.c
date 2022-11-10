@@ -1,96 +1,143 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-struct stack {
-	char item;
-	struct stack *next;
+typedef struct node node;
+typedef struct stack stack;
+
+struct node
+{
+    char elem;
+    node *next;
 };
 
-struct stack *push (struct stack *top, char item)
+struct stack
 {
-	struct stack *new_top = (struct stack *) malloc (sizeof(struct stack));
-	new_top->item = item;
-	new_top->next  = top;
-	
-	return new_top;
+    node *top;
+};
+
+stack *create_stack ()
+{
+    stack *new_stack = (stack *) malloc(sizeof(stack));
+    
+    if (new_stack == NULL)
+        exit(1);
+        
+    return new_stack;
 }
 
-struct stack *pop (struct stack *top)
+void push (stack *s, char elem)
 {
-	struct stack *new_top = top->next;	
-	top->next = NULL;
-
-	free(top);
-	
-	return new_top;
+    node *new_top = (node *) malloc(sizeof(node));
+    
+    if (new_top == NULL)
+        exit(1);
+    
+    new_top->elem = elem;
+    new_top->next = s->top;
+    
+    s->top = new_top;
 }
 
-short balancing (struct stack *top1, struct stack *top2)
+char pop (stack *s)
 {
-	char string[500];
-	int i = 0;
-
-	scanf("%[^\n]s", string);
-	
-	while (string[i] != '\0')
-	{
-		if (string[i] == '(')
-		{
-			top1 = push(top1, string[i]);
-		}
-		else if (string[i] == '[')
-		{
-			top2 = push(top2, string[i]);
-		}
-		else if (string[i] == ')')
-		{
-			if (top1 == NULL)
-				return 0;
-
-			top1 = pop(top1);
-		} 
-		else if (string[i] == ']')
-		{
-			if (top2 == NULL)
-				return 0;
-
-			top2 = pop(top2);
-		}
-		
-		i += 1;
-	}
-
-	if (top1 == NULL)
-		if(top2 == NULL)
-			return 1;
-
-	return 0;
+    if (s->top == NULL)
+        return 'N';
+    
+    node *aux = s->top;
+    s->top = s->top->next;
+    
+    char elem = aux->elem;
+    
+    aux->next = NULL;
+    
+    return elem;
 }
 
-void loop (int n)
+void print_stack (stack *s)
 {
-	if (n > 0)
-	{
-		getchar();
-		if (balancing(NULL, NULL))
-		{
-			printf("Yes\n");
-		}
-		else
-		{
-			printf("No\n");
-		}
-		
-		loop(n - 1);
-	}
+    node *aux = s->top;
+    
+    while (aux != NULL)
+    {
+        if (aux->next != NULL)
+        {
+            printf("%c ", aux->elem);
+        }
+        else
+        {
+            printf("%c\n", aux->elem);
+        }
+        
+        aux = aux->next;
+    }
 }
 
-int main ()
+int check_string (char string[], stack *s)
 {
-	int n;
-	scanf("%d", &n);
+    int i = 0;
+    
+    while (string[i] != '\0')
+    {
+        if (string[i] == '(')
+        {
+            push(s, string[i]);
+        }
+        else if (string[i] == ')')
+        {
+            if (pop(s) != '(')
+                return 0;
+        }
+        else if (string[i] == '[')
+        {
+            push(s, string[i]);
+        }
+        else if (string[i] == ']')
+        {
+            if (pop(s) != '[')
+                return 0;
+        }
+        
+        i += 1;
+    }
+    
+    return 1;
+}
 
-	loop(n);
+void loop(int n)
+{
+    if (n > 0)
+    {
+        char string[255];
+        fgets(string, 255, stdin);
+        stack *s = create_stack();
+        
+        if (check_string(string, s))
+        {
+            if (s->top == NULL)
+            {
+                printf("Yes\n");
+            }
+            else
+            {
+                printf("No\n");
+            }
+        }
+        else
+        {
+            printf("No\n");
+        }
+        
+        loop(n - 1);
+    }
+}
 
+int main() 
+{
+    int n;
+    scanf("%d ", &n);
+    
+    loop(n);
+    
 	return 0;
 }

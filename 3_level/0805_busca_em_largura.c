@@ -23,6 +23,9 @@ typedef struct graph
 
 list *add_node(int elem, list *l)
 {
+    if (elem < 0)
+        return l;
+
     list *new_node = (list *)malloc(sizeof(list));
 
     if (new_node == NULL)
@@ -200,27 +203,15 @@ void bfs(graph *g, int o)
     }
 }
 
-void caminho(graph *g, int d, int o, int visited[])
+void caminho(graph *g, int o, int d)
 {
-    int count = 0;
 
-    for (int i = 0; i < g->size; i++)
-        if (visited[i])
-            count += 1;
-
-    if (d == -1 && count == g->size)
+    if (g->visited[d] == o)
         return;
 
-    if (g->visited[d] != o && g->visited[d] != d)
-    {
-        visited[d] = 1;
-        caminho(g, g->visited[d], o, visited);
-        printf(" %d =>", g->visited[d]);
-    }
-    else
-    {
-        printf(" %d =>", g->visited[d]);
-    }
+    caminho(g, o, g->visited[d]);
+
+    printf(" => %d", g->visited[d]);
 }
 
 int main()
@@ -294,19 +285,11 @@ int main()
             }
             else
             {
-                printf("Caminho entre %d e %d:", o, d);
+                printf("Caminho entre %d e %d: %d", o, d, o);
 
-                if (o != d)
-                {
-                    int visited[n];
+                caminho(g, o, d);
 
-                    for (int i = 0; i < n; i++)
-                        visited[i] = 0;
-
-                    caminho(g, d, o, visited);
-                }
-
-                printf(" %d\n", d);
+                printf(" => %d\n", d);
             }
         }
         else

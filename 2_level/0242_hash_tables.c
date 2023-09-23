@@ -99,6 +99,5 @@ int main ()
     while (t--)
         solved();
     
-
     return 0;
 }

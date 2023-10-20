@@ -29,6 +29,10 @@ int next_number_not_zero (int i, int n, int *rua)
 
 int main()
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
     int n;
     cin >> n;
 
@@ -42,38 +46,29 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        if (rua[0][i] == 1)
-        {
-            rua[0][i] = 0;
-        }
-        else
-        {
-            rua[0][i] = aux;
+        int v = rua[0][i];
+        rua[0][i] = aux;
+
+        if (v == 0)
             aux--;
-        }
+        
     }
 
     aux = count_zeros(n, &rua[1][0]);
 
     for (int i = 0; i < n; i++)
     {
-        if (rua[1][i] == 1)
-        {
-            rua[1][i] = 0;
-        }
-        else
-        {
-            rua[1][i] = aux;
+        int v = rua[0][i];
+        rua[1][i] = aux;
+
+        if (v == 0)
             aux--;
-        }
+
     }
     
     int dir, swap = 1;
 
-    int z1 = count_zeros(n, &rua[0][0]);
-    int z2 = count_zeros(n, &rua[1][0]);
-
-    if (z1 < z2)
+    if (rua[0][0] < rua[1][0])
     {
         dir = 0;
     }
@@ -82,58 +77,43 @@ int main()
         dir = 1;
     }
 
-    int m = 0;
+    int m = 0, num = rua[dir][0];
     
     for (int i = 0; i < n; i++)
     {
-        if (i + 1 != n && rua[dir][i + 1] != 0)
-        {
+        if (i + 1 != n)
+        {           
             if (swap)
             {
-                if (dir == 0)
+                if (dir)
                 {
-                    if (rua[1][i] != 0)
+                    if (rua[dir][i + 1] > rua[0][i + 1])
                     {
-                        if (i + 1 != n && rua[1][i] < rua[dir][i + 1])
-                        {
-                            dir = 1;
-                            swap--;
-                        }
-                    }
-                    else
-                    {
-                        if (next_number_not_zero(i, n, &rua[1][i]) < rua[dir][i + 1])
-                        {
-                            dir = 1;
-                            swap--;
-                        }
+                        m++;
+                        i++;
+                        swap--;
                     }
                 }
                 else
                 {
-                    if (rua[0][i] != 0)
+                    if (rua[dir][i + 1] > rua[1][i + 1])
                     {
-                        if (i + 1 != n && rua[0][i] < rua[dir][i + 1])
-                        {
-                            dir = 0;
-                            swap--;
-                        }
-                    }
-                    else
-                    {
-                        if (next_number_not_zero(i, n, &rua[0][i]) < rua[dir][i + 1])
-                        {
-                            dir = 0;
-                            swap--;
-                        }
+                        m++;
+                        i++;
+                        swap--;
                     }
                 }
             }
+            
+        }
 
+        if (rua[dir][i] != num)
+        {
             m++;
+            num = rua[dir][i];
         }
     }
-    
-    cout <<  m << endl;
+
+    cout << m << endl;
 
 }

@@ -2,29 +2,41 @@
 
 using namespace std;
 
-int count_zeros(int n, int *rua)
+void solve (int n, vector <vector <int>> street)
 {
-    int count = 0;
+    int count = 0, end = INT_MAX;
 
     for (int i = 0; i < n; i++)
-        if (rua[i] == 0)
-            count++;
+        count += street[0][i];
     
-    return count;
-}
+    end = min(count, end);
+    count += 1;
 
-int next_number_not_zero (int i, int n, int *rua)
-{
-    
-    while (i < n)
+    for (int i = 0; i < n; i++)
     {
-        if (rua[i] != 0)
-            return rua[i];
+        count -= street[0][i];
+        count += street[1][i];
+        end = min(count, end);
+    }
 
-        i++;
+
+    count = 0;
+
+    for (int i = 0; i < n; i++)
+        count += street[1][i];
+    
+    end = min(count, end);
+    count += 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        count -= street[1][i];
+        count += street[0][i];
+        end = min(count, end);
     }
     
-    return 0;
+
+    cout << end << endl;
 }
 
 int main()
@@ -36,84 +48,22 @@ int main()
     int n;
     cin >> n;
 
-    int rua[2][n];
+    vector <vector<int>> street (2);
+    vector <int> s1 (n);
+    vector <int> s2 (n);
+    street[0] = s1;
+    street[1] = s2;
 
     for (int j = 0; j < 2; j++)
+    {
         for (int i = 0; i < n; i++)
-            cin >> rua[j][i];
-
-    int aux = count_zeros(n, &rua[0][0]);
-
-    for (int i = 0; i < n; i++)
-    {
-        int v = rua[0][i];
-        rua[0][i] = aux;
-
-        if (v == 0)
-            aux--;
-        
-    }
-
-    aux = count_zeros(n, &rua[1][0]);
-
-    for (int i = 0; i < n; i++)
-    {
-        int v = rua[0][i];
-        rua[1][i] = aux;
-
-        if (v == 0)
-            aux--;
-
-    }
-    
-    int dir, swap = 1;
-
-    if (rua[0][0] < rua[1][0])
-    {
-        dir = 0;
-    }
-    else
-    {
-        dir = 1;
-    }
-
-    int m = 0, num = rua[dir][0];
-    
-    for (int i = 0; i < n; i++)
-    {
-        if (i + 1 != n)
-        {           
-            if (swap)
-            {
-                if (dir)
-                {
-                    if (rua[dir][i + 1] > rua[0][i + 1])
-                    {
-                        m++;
-                        i++;
-                        swap--;
-                    }
-                }
-                else
-                {
-                    if (rua[dir][i + 1] > rua[1][i + 1])
-                    {
-                        m++;
-                        i++;
-                        swap--;
-                    }
-                }
-            }
-            
-        }
-
-        if (rua[dir][i] != num)
         {
-            m++;
-            num = rua[dir][i];
+            int num;
+            cin >> num;
+
+            street[j][i] = !num;
         }
     }
 
-    cout << m << endl;
-
+    solve (n, street);
 }

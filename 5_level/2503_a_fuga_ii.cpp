@@ -2,9 +2,6 @@
 
 using namespace std;
 
-bool desc(int a, int b) {
-    return a > b; 
-}
 
 bool move(int map[10][10], int i, int j)
 {

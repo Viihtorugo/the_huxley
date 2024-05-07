@@ -2,10 +2,6 @@
 
 using namespace std;
 
-bool desc(int a, int b) {
-    return a > b; 
-}
-
 bool move(int n, int m, vector<vector<int>> &map, int i, int j, vector<string> &walking)
 {
     if (i < 0 || j < 0 || i >= n || j >= m || map[i][j] == 0)
@@ -83,7 +79,7 @@ void solve ()
     
     vector <string> walking;
 
-    if (move(n, m, map, 0, 0, walking))
+    if (map[n-1][m-1] == 1 && move(n, m, map, 0, 0, walking))
     {
         for (int i = 0; i < walking.size(); i++)
         {

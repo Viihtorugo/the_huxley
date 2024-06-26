@@ -78,23 +78,9 @@ list *add_elem_list(list *head, int n, int w)
     list *new_node = (list *)malloc(sizeof(list));
     new_node->n = n;
     new_node->w = w;
-    new_node->next = NULL;
+    new_node->next = head;
 
-    if (head == NULL)
-    {
-        return new_node;
-    }
-    else
-    {
-        list *current = head;
-
-        while (current->next != NULL)
-            current = current->next;
-
-        current->next = new_node;
-
-        return head;
-    }
+    return new_node;
 }
 
 int remove_elem_list(list **head)
@@ -138,27 +124,64 @@ void free_graph(graph *g)
 void add_edge(int v1, int v2, int w, graph *g)
 {
     g->adj_list[v1] = add_elem_list(g->adj_list[v1], v2, w);
-    g->adj_list[v2] = add_elem_list(g->adj_list[v2], v1, w);
 }
 
-void dfs(graph *g, int o, int d, int visited[], list *l)
+void print_stack(stack *s)
 {
-    if(visited[o] == 1)
-        return;
-
-    printf("%c ", (char) o);
-    visited[o] = 1;
-
-    list *aux = g->adj_list[o];
-
+    stack *aux = s;
     while (aux != NULL)
     {
-        if (visited[aux->n] == 0)
-            dfs(g, aux->n, d, visited);
+        printf("%c", aux->v);
+
+        if (aux->next == NULL)
+        {
+            printf("\n");
+        }
+        else
+        {
+            printf(" ");
+        }
 
         aux = aux->next;
     }
-    
+}
+
+void dfs(graph *g, int o, int d, int visited[])
+{
+
+    stack *s = NULL;
+    stack *state = NULL;
+    s = push(s, o);
+    printf("%c\n", (char)o);
+
+    while (s != NULL)
+    {
+        int v = pop(&s);
+        visited[v] = 1;
+
+        if (visited[d] == 1)
+            return;
+
+        list *aux = g->adj_list[v];
+
+        int flag = 0;
+
+        while (aux != NULL)
+        {
+            if (visited[aux->n] == 0)
+            {
+                visited[aux->n] = 1;
+                s = push(s, aux->n);
+                state = push(state, aux->n);
+                flag = 1;
+            }
+
+            aux = aux->next;
+        }
+
+        if (flag)
+            print_stack(state);
+    }
 }
 
 int main()

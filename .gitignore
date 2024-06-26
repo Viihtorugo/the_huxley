@@ -1,2 +1,5 @@
 /exe/*
 .vscode/
+makefile
+model_cpp.cpp
+check_input.py

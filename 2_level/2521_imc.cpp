@@ -8,7 +8,7 @@ int main ()
     cin >> p >> a;
     
     cout << fixed << setprecision(1);
-    cout << p/(a*a) << '\n';
+    cout << p/(a*a)  << '\n';
 
     return 0;
 }

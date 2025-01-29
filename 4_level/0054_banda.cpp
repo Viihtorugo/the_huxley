@@ -14,29 +14,31 @@ void solved(int n, int m)
         scanf("%d %d %d", &x, &y, &z);
 
         p[x][y] = z;
-        p[x][y] = z;
+        p[y][x] = z;
     }
 
-    int x = 0, y = 0, z = 0;
 
-    for (int i = 1; i <= n; i++)
+    vector <int> a (3, 0);
+
+    for (int i = 1; i < n; i++)
     {
-        for (int j = 1; j <= n; j++)
+        for (int j = i + 1; j < n; j++)
         {
-            for (int k = 1; k <= n; k++)
+            for (int k = j + 1; k < n; k++)
             {
-                if (p[i][j] + p[j][k] > max)
+                if (p[i][j] + p[j][k] + p[i][k] > max)
                 {
-                    max = p[i][j] + p[j][k];
-                    x = i;
-                    y = j;
-                    z = k;
+                    max = p[i][j] + p[j][k] + p[i][k];
+                    a[0] = i;
+                    a[1] = j;
+                    a[2] = k;
                 }
             }
         }
     }
 
-    printf("%d %d %d\n", x, y, z);
+    sort(a.begin(), a.end());
+    printf("%d %d %d\n", a[0], a[1], a[2]);
 }
 
 int main()

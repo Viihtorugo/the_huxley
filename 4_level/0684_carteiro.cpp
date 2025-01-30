@@ -1,19 +1,22 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
+
+using namespace std;
 
 int main()
 {
     int n, m;
-    scanf("%d %d", &n, &m);
+    cin >> n >> m;
 
-    int house[n], index[1000000001] = {0};
+    int house[n];
+
+    unordered_map<int, unordered_map<int, int>> dist;
+    unordered_map<int, int> index;
 
     for (int i = 0; i < n; i++)
     {
         scanf("%d", &house[i]);
         index[house[i]] = i;
     }
-
-    int dist[n][n];
 
     for (int i = 0; i < n; i++)
     {
@@ -37,9 +40,12 @@ int main()
     {
         scanf("%d", &num);
 
-        count += dist[pos][index[num]];
-        pos = index[num];
+        if (dist.find(pos) != dist.end())
+        {
+            count += dist[pos][index[num]];
+            pos = index[num];
+        }
     }
 
-    printf("%d\n", count);
+    cout << count << '\n';
 }
